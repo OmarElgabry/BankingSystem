@@ -66,12 +66,7 @@ public class Account {
 	 *  Prints the history of transactions
 	 */
 	public void printHistory(){		
-		System.out.println(toString());
-		
-		Iterator<Transaction> it = transactions.iterator();
-		while(it.hasNext()){
-			System.out.println(it.next().toString());
-		}
+		_printHistory(null);
 	}
 	
 	/**
@@ -80,12 +75,24 @@ public class Account {
 	 *  @param filter	The filter to match against.
 	 */
 	public void printHistory(TransactionFilter filter){		
+		_printHistory(filter);
+	}
+	
+	/**
+	 *  A helper method prints the history of transactions with/without a filter
+	 *  This method is created to avoid having a duplicate code
+	 *  
+	 *  @param filter	The filter to match against.
+	 *  @see Account#printHistory()
+	 *  @see Account#printHistory(TransactionFilter)	
+	 */
+	private void _printHistory(TransactionFilter filter){
 		System.out.println(toString());
 		
 		Iterator<Transaction> it = transactions.iterator();
 		while(it.hasNext()) {
 			Transaction current = it.next();
-			if(filter.isValid(current))
+			if(filter == null || (filter != null && filter.isValid(current)))
 				System.out.println(current.toString());
 		}
 	}
